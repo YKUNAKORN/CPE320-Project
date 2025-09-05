@@ -1,4 +1,4 @@
-import { GetAll , GetByID, CreateRow } from "../../../lib/crud";
+import { GetAll , GetByID, CreateRow, UpdateRow, DeleteRow } from "../../../lib/crud";
 import { ResponseNote } from "../../../lib/models/note_model";
 
 export async function CreateNote(db, rows) {
@@ -47,6 +47,38 @@ export async function GetNoteByID(db, id) {
         return ResponseNote
     } catch (error) {
         console.error('Error fetching note by ID:', error);
+        return null;
+    }
+}
+
+export async function updateNote(db, id, updatedFields) {
+    try {
+        const data = await UpdateRow(db, "note", id, updatedFields);
+        if(data == null) {
+            return null;
+        }
+        ResponseNote.id = data[0].id
+        ResponseNote.method = data[0].method
+        ResponseNote.createdAt = data[0].created_at
+        return ResponseNote;
+    } catch (error) {
+        console.error('Error updating note:', error);
+        return null;
+    }
+}
+
+export async function DeleteNote(db, id) {
+    try {
+        const data = await DeleteRow(db, "note", id);
+        if(data == null) {
+            return null;
+        }
+        ResponseNote.id = data[0].id
+        ResponseNote.method = data[0].method
+        ResponseNote.createdAt = data[0].created_at
+        return ResponseNote;
+    } catch (error) {
+        console.error('Error deleting note:', error);
         return null;
     }
 }
