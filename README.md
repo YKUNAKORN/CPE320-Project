@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 # SET UP
 install package
+install package
 ```
 npm install
 ```
@@ -12,6 +13,8 @@ npm install
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_or_anon_key
 NEXT_PUBLIC_SUPABASE_SECRET_KEY=sb-secret-key
+JWT_SECRET=your-jwt-secret-create-on-your-own
+ALLOWED_ORIGINS=your-domain-or-localhost
 ```
 
 ## Getting Started

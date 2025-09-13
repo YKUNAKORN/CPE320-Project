@@ -1,13 +1,10 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createRouteHandlerClient } from "../../../../lib/supabase/server";
 import { Create } from "../../../../lib/supabase/crud";
-import { CreateClientBrowser } from "../../../../lib/supabase/client";
-const db = CreateClientBrowser();
 // import { NextResponse } from 'next/server'
 
 export async function SignUp(InsertUserModel, password) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createRouteHandlerClient()
     const { data, error } = await supabase.auth.signUp({
       email: InsertUserModel.email,
       password,
@@ -21,9 +18,7 @@ export async function SignUp(InsertUserModel, password) {
       return { user: null, error: error };
     }
     InsertUserModel.id = data.user.id;
-
-    const Profile = Create(db, "user", InsertUserModel)
-
+    const Profile = await Create(supabase, "user", InsertUserModel)
     return Profile
   } catch (error) {
     console.error("SignUp failed: Internal server error: ", error.message);

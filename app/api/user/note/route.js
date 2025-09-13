@@ -3,7 +3,6 @@ import { CreateNote, GetAllNotes, UpdateNoteByID, DeleteNoteByID } from "../serv
 import { ResponseModel } from "../../../../lib/model/Response";
 import { UpdateNote } from "../../../../lib/model/Note";
 
-
 export async function POST(req) {
     const row = await req.json()
     if (!row.method) {
@@ -13,7 +12,9 @@ export async function POST(req) {
         console.error("Invalid Data") //for Debug
         return NextResponse.json(ResponseModel, { status: 400 }) //for User
     }
+
     const { data, error } = await CreateNote(row)
+
     if (error) {
         ResponseModel.status = '500'
         ResponseModel.message = 'Created Failed' + error
@@ -35,6 +36,7 @@ export async function GET() {
         console.error("Note Not Found with ID: " + id) //for Debug
         return NextResponse.json(ResponseModel, { status: 404 }) //for User
     }
+
     if (error) {
         ResponseModel.status = '500'
         ResponseModel.message = 'Failed to retrieve notes' + error
@@ -65,6 +67,7 @@ export async function PUT(req) {
     }
     try {
         const { data, error } = await UpdateNoteByID(id, UpdateNote)
+
         if (!data || data.length === 0) {
             ResponseModel.status = '404'
             ResponseModel.message = 'Note Not Found with ID: ' + id
@@ -72,6 +75,7 @@ export async function PUT(req) {
             console.error("Note Not Found with ID: " + id) //for Debug
             return NextResponse.json(ResponseModel, { status: 404 }) //for User
         }
+
         if (error) {
             ResponseModel.status = '500'
             ResponseModel.message = 'Update Failed' + error
@@ -92,6 +96,7 @@ export async function PUT(req) {
 export async function DELETE(req) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
+
     if (!id) {
         ResponseModel.status = '400';
         ResponseModel.message = 'ID is required';
@@ -110,6 +115,7 @@ export async function DELETE(req) {
         console.error("Note Not Found with ID: " + id) //for Debug
         return NextResponse.json(ResponseModel, { status: 404 }) //for User
     }
+    
     if (error) {
         ResponseModel.status = '500';
         ResponseModel.message = 'Delete Failed' + error;

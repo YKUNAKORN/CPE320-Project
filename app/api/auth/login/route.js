@@ -1,13 +1,10 @@
-
-
 import { NextResponse } from 'next/server'
 import { ResponseModel } from '../../../../lib/model/Response'
 import { Login } from '../service/Login'
 
 export async function POST(request) {
   const { email, password } = await request.json()
-  // 
-
+  
   if (!email || !password) {
     return NextResponse.json({ error: 'Email and password are required' }, { status: 400 })
   }
@@ -20,5 +17,8 @@ export async function POST(request) {
     ResponseModel.data = null
     return NextResponse.json(ResponseModel, { status: 500 })
   }
+}
 
+export async function GET(request) {
+  return NextResponse.json({ message: "Login endpoint - use POST method", methods: ["POST"] }, { status: 200 })
 }
